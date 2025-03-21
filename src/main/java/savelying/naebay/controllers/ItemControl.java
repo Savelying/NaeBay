@@ -22,12 +22,6 @@ public class ItemControl {
         return "items";
     }
 
-    @GetMapping("/{id}")
-    public String item(@PathVariable long id, Model model) {
-        model.addAttribute("item", itemService.getItem(id));
-        return "view";
-    }
-
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("item", new Item());
@@ -40,16 +34,28 @@ public class ItemControl {
         return "redirect:/";
     }
 
+    @GetMapping("/{id}")
+    public String item(@PathVariable long id, Model model) {
+        if (itemService.getItem(id) != null) {
+            model.addAttribute("item", itemService.getItem(id));
+        } else return "redirect:/items";
+        return "view";
+    }
+
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable long id, Model model) {
-        model.addAttribute("item", itemService.getItem(id));
+        if (itemService.getItem(id) != null) {
+            model.addAttribute("item", itemService.getItem(id));
+        } else return "redirect:/items";
         return "edit";
     }
 
     @PostMapping("/{id}/edit")
     public String edit(@PathVariable long id, @ModelAttribute("item") Item item) {
-        itemService.updateItem(item, id);
-        return "redirect:/";
+        if (itemService.getItem(id) != null) {
+            itemService.saveItem(item);
+            return "redirect:/";
+        } else return "redirect:/items";
     }
 
 

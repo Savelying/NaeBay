@@ -5,7 +5,7 @@
     <title>NaeBay</title>
 </head>
 <body>
-<h1>NaeBay!</h1>
+<h1><a href="/">NaeBay!</a></h1>
 <hr>
 <h3>Detailed information</h3>
 <b>Title: </b>${item.title}<br>

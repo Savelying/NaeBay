@@ -1,8 +1,24 @@
 package savelying.naebay.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+
+@Entity(name = "Items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String title, description, city, author;
+
+    @NotEmpty(message = "Area should not be empty")
+    private String title, city, author;
+
+    @NotEmpty(message = "Area should not be empty")
+    @Column(columnDefinition = "text")
+    private String description;
+
+    @NotNull(message = "Enter the digital number")
     private int price;
 
     public Item(long id, String title, String description, String city, String author, int price) {
