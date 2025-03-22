@@ -8,6 +8,10 @@
 <h1><a href="/">NaeBay!</a></h1>
 <hr>
 <h3>Detailed information</h3>
+<#list  images as img>
+    <img src="/images/${img.id}" alt="img${img.id}" height="100"/>
+</#list>
+<br><br>
 <b>Title: </b>${item.title}<br>
 <b>Description: </b>${item.description}<br>
 <b>City: </b>${item.city}<br>
