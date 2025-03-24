@@ -9,7 +9,7 @@
 <a href="/user/login">Log in</a>
 <hr>
 <h3>Welcome to our perfect site!</h3>
-<br>
-<a href="/items">[View items]</a> or <a href="/item/create">[Add item]</a>
+<H4>Hello!</H4>
+<a href="/item">[View items]</a> or <a href="/item/create">[Add item]</a>
 </body>
 </html>

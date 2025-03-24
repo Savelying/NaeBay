@@ -10,19 +10,13 @@ import savelying.naebay.services.ItemService;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/items")
+@RequestMapping("/item")
 public class ItemControl {
 
     private final ItemService itemService;
 
     public ItemControl(ItemService itemService) {
         this.itemService = itemService;
-    }
-
-    @GetMapping("")
-    public String items(Model model) {
-        model.addAttribute("items", itemService.getItems());
-        return "items";
     }
 
     @GetMapping("/create")
@@ -42,7 +36,7 @@ public class ItemControl {
         if (itemService.getItemById(id) != null) {
             model.addAttribute("item", itemService.getItemById(id));
             model.addAttribute("images", itemService.getItemById(id).getImages());
-        } else return "redirect:/items";
+        } else return "redirect:/item";
         return "view";
     }
 
@@ -50,7 +44,7 @@ public class ItemControl {
     public String edit(@PathVariable long id, Model model) {
         if (itemService.getItemById(id) != null) {
             model.addAttribute("item", itemService.getItemById(id));
-        } else return "redirect:/items";
+        } else return "redirect:/item";
         return "edit";
     }
 
@@ -59,7 +53,7 @@ public class ItemControl {
         if (itemService.getItemById(id) != null) {
             itemService.updateItem(item);
             return "redirect:/";
-        } else return "redirect:/items";
+        } else return "redirect:/item";
     }
 
 

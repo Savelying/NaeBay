@@ -6,9 +6,10 @@
 </head>
 <body>
 <h1><a href="/">NaeBay!</a></h1>
+<a href="/user/login">Log in</a>
 <hr>
 <h3>Create new item</h3>
-<form action="/items/create" method="post" enctype="multipart/form-data">
+<form action="/item/create" method="post" enctype="multipart/form-data">
     Enter the title: <input type="text" name="title"><br><br>
     Enter the description: <input type="text" name="description"><br><br>
     Enter the city: <input type="text" name="city"><br><br>
