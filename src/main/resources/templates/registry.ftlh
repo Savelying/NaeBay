@@ -5,7 +5,8 @@
     <title>NaeBay</title>
 </head>
 <body>
-<h1>NaeBay!</h1>
+<h1><a href="/">NaeBay!</a></h1>
+<br>
 <hr>
 <h3>Registration</h3>
 <form action="/registry" method="post">
@@ -17,7 +18,7 @@
     <input type="submit" value="Registration"/>
 </form>
 <#if error??>
-    <h2 style="color: red">${error}</h2>
+    <h4 style="color: red">${error}</h4>
 </#if>
 </body>
 </html>

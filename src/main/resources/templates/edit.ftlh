@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1><a href="/">NaeBay!</a></h1>
+<br>
 <hr>
 <h3>Editing item</h3>
 <form action="/items/${item.id}/edit" method="post">

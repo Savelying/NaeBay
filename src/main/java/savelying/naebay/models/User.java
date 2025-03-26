@@ -38,6 +38,10 @@ public class User implements UserDetails {
         this.date = LocalDate.now();
     }
 
+    public boolean isAdmin() {
+        return roles.contains(Role.ROLE_ADMIN);
+    }
+
     public long getId() {
         return id;
     }
