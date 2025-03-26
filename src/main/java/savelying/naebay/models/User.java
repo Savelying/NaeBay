@@ -3,11 +3,9 @@ package savelying.naebay.models;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import savelying.naebay.models.enums.Rule;
+
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "users")
 public class User implements UserDetails {
@@ -19,57 +17,107 @@ public class User implements UserDetails {
     private String email;
     private String phone;
     private boolean active;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ava")
-    private Image avatar;
+    @JoinColumn
+    private Image ava;
     @Column(length = 1000)
     private String password;
     private LocalDate date;
-    @ElementCollection(targetClass = Rule.class, fetch = FetchType.EAGER)
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "id"))
     @Enumerated(EnumType.STRING)
-    private Set<Rule> rules = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Item> items = new ArrayList<>();
 
     @PrePersist
-    private void prePersist() {
-        date = LocalDate.now();
+    public void prePersist() {
+        this.date = LocalDate.now();
     }
 
-    public User() {
+    public long getId() {
+        return id;
     }
 
-    public String getEmail() {
-        return email;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Set<Rule> getRules() {
-        return rules;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    // Security
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Image getAva() {
+        return ava;
+    }
+
+    public void setAva(Image ava) {
+        this.ava = ava;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    //Spring Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return rules;
+        return roles;
     }
 
     @Override
@@ -101,5 +149,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

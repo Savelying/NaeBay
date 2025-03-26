@@ -13,18 +13,17 @@ import java.io.ByteArrayInputStream;
 
 @RestController
 public class ImageControl {
-
     private final ImageRepository imageRepository;
+
     public ImageControl(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
 
     @GetMapping("/images/{id}")
-    private ResponseEntity<?> getImage(@PathVariable long id) {
+    public ResponseEntity<?> getImageById(@PathVariable long id) {
         Image image = imageRepository.findById(id).orElse(null);
         assert image != null;
-        return ResponseEntity.ok()
-                .header("fileName", image.getOriginFileName())
+        return ResponseEntity.ok().header("filename", image.getOriginFileName())
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));

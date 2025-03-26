@@ -22,25 +22,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Configuring HttpSecurity
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/", "/items", "/item/{id}", "/images/**", "/user/login", "/user/registry").permitAll()
-                        .requestMatchers("/user/hello", "/item/**").authenticated()
-                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/user/login")
-                        .defaultSuccessUrl("/user/hello")
-                        .permitAll()
-                        .failureUrl("/user/login?error"))
-                .logout(logout -> logout.logoutUrl("/user/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll());
-        return http.build();
-    }
-
     // User Creation
     @Bean
     public UserDetailsService userDetailsService() {
@@ -54,5 +35,23 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-}
 
+    // Configuring HttpSecurity
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/", "/items", "/view", "/registry", "/login", "/logout", "/images/**").permitAll()
+                        .requestMatchers("/hello", "/items/**", "/logout").authenticated()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+//                        .defaultSuccessUrl("/hello")
+                        .permitAll()
+                        .failureUrl("/login?error"))
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll());
+        return http.build();
+    }
+}

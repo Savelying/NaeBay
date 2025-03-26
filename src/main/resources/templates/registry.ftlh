@@ -5,11 +5,10 @@
     <title>NaeBay</title>
 </head>
 <body>
-<h1><a href="/">NaeBay!</a></h1>
-<a href="/user/login">Log in</a>
+<h1>NaeBay!</h1>
 <hr>
 <h3>Registration</h3>
-<form action="/user/registry" method="post">
+<form action="/registry" method="post">
     Enter name: <input type="text" name="name"><br><br>
     Enter email: <input type="email" name="email"><br><br>
     Enter phone: <input type="text" name="phone"><br><br>

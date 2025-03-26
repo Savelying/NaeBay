@@ -8,15 +8,22 @@ import savelying.naebay.models.Item;
 import savelying.naebay.services.ItemService;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
-@RequestMapping("/item")
+@RequestMapping("/items")
 public class ItemControl {
 
     private final ItemService itemService;
 
     public ItemControl(ItemService itemService) {
         this.itemService = itemService;
+    }
+
+    @GetMapping("")
+    public String items(Model model) {
+        model.addAttribute("items", itemService.getItems());
+        return "items";
     }
 
     @GetMapping("/create")
@@ -26,40 +33,44 @@ public class ItemControl {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("item") Item item, @RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2, @RequestParam("file3") MultipartFile file3) throws IOException {
-        itemService.saveItem(item, file1, file2, file3);
+    public String create(@ModelAttribute("item") Item item,
+                         Principal principal,
+                         @RequestParam("file1") MultipartFile file1,
+                         @RequestParam("file2") MultipartFile file2,
+                         @RequestParam("file3") MultipartFile file3) throws IOException {
+        itemService.saveItem(item, principal, file1, file2, file3);
         return "redirect:/";
     }
 
     @GetMapping("/{id}")
     public String item(@PathVariable long id, Model model) {
-        if (itemService.getItemById(id) != null) {
-            model.addAttribute("item", itemService.getItemById(id));
-            model.addAttribute("images", itemService.getItemById(id).getImages());
-        } else return "redirect:/item";
+        if (itemService.getItem(id) != null) {
+            model.addAttribute("item", itemService.getItem(id));
+            model.addAttribute("images", itemService.getItem(id).getImages());
+        } else return "redirect:/items";
         return "view";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable long id, Model model) {
-        if (itemService.getItemById(id) != null) {
-            model.addAttribute("item", itemService.getItemById(id));
-        } else return "redirect:/item";
-        return "edit";
-    }
-
-    @PostMapping("/{id}/edit")
-    public String edit(@PathVariable long id, @ModelAttribute("item") Item item) {
-        if (itemService.getItemById(id) != null) {
-            itemService.updateItem(item);
-            return "redirect:/";
-        } else return "redirect:/item";
-    }
-
-
-    @PostMapping("/{id}/del")
-    public String delete(@PathVariable long id) {
-        itemService.deleteItem(id);
-        return "redirect:/";
-    }
+//    @GetMapping("/{id}/edit")
+//    public String edit(@PathVariable long id, Model model) {
+//        if (itemService.getItem(id) != null) {
+//            model.addAttribute("item", itemService.getItem(id));
+//        } else return "redirect:/items";
+//        return "edit";
+//    }
+//
+//    @PostMapping("/{id}/edit")
+//    public String edit(@PathVariable long id, @ModelAttribute("item") Item item) {
+//        if (itemService.getItem(id) != null) {
+//            itemService.updateItem(item);
+//            return "redirect:/";
+//        } else return "redirect:/items";
+//    }
+//
+//
+//    @PostMapping("/{id}/del")
+//    public String delete(@PathVariable long id) {
+//        itemService.deleteItem(id);
+//        return "redirect:/";
+//    }
 }

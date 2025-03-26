@@ -1,10 +1,9 @@
-package savelying.naebay.models.enums;
-
+package savelying.naebay.models;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Rule implements GrantedAuthority {
-    ROLE_USER, ROLE_ADMIN;
+public enum Role implements GrantedAuthority {
+    ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR;
 
     @Override
     public String getAuthority() {

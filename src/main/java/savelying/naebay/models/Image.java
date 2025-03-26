@@ -15,9 +15,9 @@ public class Image {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Item item;
 
-    public Image(String name, String originFileName, String contentType, long size, byte[] bytes) {
+    public Image(String name, String originalFilename, String contentType, long size, byte[] bytes) {
         this.name = name;
-        this.originFileName = originFileName;
+        this.originFileName = originalFilename;
         this.contentType = contentType;
         this.size = size;
         this.bytes = bytes;
@@ -26,31 +26,31 @@ public class Image {
     public Image() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getOriginFileName() {
-        return originFileName;
-    }
-
-    public long getSize() {
-        return size;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public byte[] getBytes() {
-        return bytes;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public Item getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public String getOriginFileName() {
+        return originFileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public long getId() {
+        return id;
     }
 }

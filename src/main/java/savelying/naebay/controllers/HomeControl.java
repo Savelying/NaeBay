@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import savelying.naebay.services.ItemService;
 
+import java.security.Principal;
+
 @Controller
 public class HomeControl {
 
@@ -15,13 +17,8 @@ public class HomeControl {
     }
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, Principal principal) {
+        model.addAttribute("user", itemService.getUserByPrincipal(principal));
         return "home";
-    }
-
-    @GetMapping("/items")
-    public String items(Model model) {
-        model.addAttribute("items", itemService.getItems());
-        return "items";
     }
 }
