@@ -1,28 +1,34 @@
 package savelying.naebay.models;
 
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Entity(name = "Items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String title, description, city, author;
+    private String title;
+    @Column(columnDefinition = "text")
+    private String description;
+    private String city;
     private int price;
+    private LocalDate date;
 
-    public Item(long id, String title, String description, String city, String author, int price) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.city = city;
-        this.author = author;
-        this.price = price;
-    }
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
 
-    public Item(String title, String description, String city, String author, int price) {
-        this.title = title;
-        this.description = description;
-        this.city = city;
-        this.author = author;
-        this.price = price;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "item")
+    private List<Image> images = new ArrayList<>();
 
-    public Item() {
+    @PrePersist
+    private void prePersist() {
+        this.date = LocalDate.now();
     }
 
     public long getId() {
@@ -57,14 +63,6 @@ public class Item {
         this.city = city;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -72,4 +70,30 @@ public class Item {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addImageToItem(Image image) {
+        image.setItem(this);
+        images.add(image);
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
 }

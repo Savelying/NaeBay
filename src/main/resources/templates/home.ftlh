@@ -6,9 +6,19 @@
 </head>
 <body>
 <h1>NaeBay!</h1>
+<#if user.name??>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <input type="submit" value="Log out"/>
+    </form>
+<#else>
+    <form action="/login" method="get">
+        <input type="submit" value="Log in"/>
+    </form>
+</#if>
 <hr>
 <h3>Welcome to our perfect site!</h3>
 <br>
-<a href="items">[View items]</a> or <a href="items/create">[Add item]</a>
+<a href="/items">[View items]</a> or <a href="items/create">[Add item]</a>
 </body>
 </html>
