@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>NaeBay!</h1>
-<#if user.name??>
+<#if isLog>
+    <a href="user/${user.id}">My account</a>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <input type="submit" value="Log out"/>

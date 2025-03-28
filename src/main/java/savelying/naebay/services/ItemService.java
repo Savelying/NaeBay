@@ -49,7 +49,7 @@ public class ItemService {
     }
 
     public User getUserByPrincipal(Principal principal) {
-        if (principal == null) return new User();
+        if (principal == null) return null;
         return userRepository.findByEmail(principal.getName());
     }
 
@@ -57,15 +57,16 @@ public class ItemService {
         return new Image(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
     }
 
-//    public void updateItem(Item item) {
-//        Item itemToUpdate = itemRepository.findById(item.getId()).orElse(null);
-//        if (itemToUpdate != null) {
-//            item.setDate(itemToUpdate.getDate());
-//            itemRepository.save(item);
-//        }
-//    }
-//
-//    public void deleteItem(long id) {
-//        itemRepository.deleteById(id);
-//    }
+    public void updateItem(Item item) {
+        Item itemToUpdate = itemRepository.findById(item.getId()).orElse(null);
+        if (itemToUpdate != null) {
+            item.setDate(itemToUpdate.getDate());
+            item.setUser(itemToUpdate.getUser());
+            itemRepository.save(item);
+        }
+    }
+
+    public void deleteItem(long id) {
+        itemRepository.deleteById(id);
+    }
 }

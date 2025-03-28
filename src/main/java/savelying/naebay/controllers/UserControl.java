@@ -7,7 +7,10 @@ import savelying.naebay.models.User;
 import savelying.naebay.repositories.UserRepository;
 import savelying.naebay.services.UserService;
 
+import java.security.Principal;
+
 @Controller
+@RequestMapping("/user")
 public class UserControl {
     private final UserService userService;
     private final UserRepository userRepository;
@@ -17,29 +20,33 @@ public class UserControl {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/registry")
-    public String registry() {
-        return "registry";
-    }
-
-    @PostMapping("/registry")
-    public String registry(@ModelAttribute User user, Model model) {
-        if (!userService.createUser(user)) {
-            model.addAttribute("error", "User with this email (" + user.getEmail() + ") already exists");
-            return "registry";
+    @GetMapping("/{user}")
+    public String userInfo(@ModelAttribute User user, Model model, Principal principal) {
+        boolean myLog = false;
+        if (principal != null) {
+            myLog = user.getId() == (userRepository.findByEmail(principal.getName()).getId());
         }
-        return "redirect:/login";
-    }
-
-    @GetMapping("/user/{user}")
-    public String userInfo(@ModelAttribute User user, Model model) {
+        model.addAttribute("myLog", myLog);
         model.addAttribute("user", userRepository.findByEmail(user.getEmail()));
         model.addAttribute("items", user.getItems());
         return "user-info";
+    }
+
+    @GetMapping("/edit")
+    public String edit(@ModelAttribute User user, Model model, Principal principal) {
+        assert principal != null;
+        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        return "my-edit";
+    }
+
+    @PostMapping("/edit")
+    public String update(@ModelAttribute User user, Model model, Principal principal) {
+        assert principal != null;
+        assert user != null;
+            if (!userService.updateUser(user, principal)) {
+                model.addAttribute("error", "User with this email (" + user.getEmail() + ") already exists");
+                return "redirect:/user/edit";
+            }
+        return "redirect:/user/" + userRepository.findByEmail(principal.getName()).getId();
     }
 }

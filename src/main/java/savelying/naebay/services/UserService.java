@@ -6,6 +6,7 @@ import savelying.naebay.models.Role;
 import savelying.naebay.models.User;
 import savelying.naebay.repositories.UserRepository;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,20 @@ public class UserService {
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
         user.getRoles().clear();
         for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
+            if (roles.contains(key)) user.getRoles().add(Role.valueOf(key));
         }
         userRepository.save(user);
+    }
+
+    public boolean updateUser(User user, Principal principal) {
+        User userToUpdate = userRepository.findByEmail(principal.getName());
+        if ((userRepository.findByEmail(user.getEmail()) != null) &&
+                (!user.getEmail().equals(userToUpdate.getEmail()))) return false;
+        user.setId(userToUpdate.getId());
+        user.setPassword(userToUpdate.getPassword());
+        user.setActive(userToUpdate.isActive());
+        user.setDate(userToUpdate.getDate());
+        userRepository.save(user);
+        return true;
     }
 }

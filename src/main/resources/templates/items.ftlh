@@ -11,7 +11,8 @@
 <h3>Налетай торопись покупай не скупись!</h3>
 <#list  items as item>
     <div>
-        <p><b>${item.title}</b> ${item.price}$ | <a href="/items/${item.id}">More...</a></p>
+<#--        <img src="/images/${item.images.first.id}" alt="img${item.images.first.id}"/>-->
+        <p><b>${item.title}</b> ${item.price}$ | <a href="/items/view/${item.id}">More...</a></p>
     </div>
 <#else>
     <h4>No items</h4>
