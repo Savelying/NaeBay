@@ -2,10 +2,13 @@ package savelying.naebay.services;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import savelying.naebay.models.Image;
 import savelying.naebay.models.Role;
 import savelying.naebay.models.User;
 import savelying.naebay.repositories.UserRepository;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +55,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean updateUser(User user, Principal principal) {
+    public boolean updateUser(User user, Principal principal, MultipartFile file) throws IOException {
         User userToUpdate = userRepository.findByEmail(principal.getName());
         if ((userRepository.findByEmail(user.getEmail()) != null) &&
                 (!user.getEmail().equals(userToUpdate.getEmail()))) return false;
@@ -60,6 +63,12 @@ public class UserService {
         user.setPassword(userToUpdate.getPassword());
         user.setActive(userToUpdate.isActive());
         user.setDate(userToUpdate.getDate());
+        user.setRoles(userToUpdate.getRoles());
+        if (file.getSize() != 0) {
+            Image image = new Image(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
+            if (userToUpdate.getAva() != null) image.setId(userToUpdate.getAva().getId());
+            user.setAva(image);
+        }
         userRepository.save(user);
         return true;
     }

@@ -30,6 +30,10 @@ public class Image {
         this.item = item;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Item getItem() {
         return item;
     }

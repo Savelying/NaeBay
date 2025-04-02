@@ -43,9 +43,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/", "/login", "/registry", "/items/view/**",
+                        .requestMatchers("/", "/login", "/logout", "/registry", "/items/view/**", "/items",
                                "/images/**", "/user/**", "/static/**").permitAll()
-                        .requestMatchers("/hello", "/logout", "/admin/**", "/items/**").authenticated()
+                        .requestMatchers("/hello", "/admin/**", "/items/**").authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NaeBay</title>
-</head>
-<body>
-<h1><a href="/">NaeBay!</a></h1>
-<br>
-<hr>
-<h3>Налетай торопись покупай не скупись!</h3>
-<#list  items as item>
-    <div>
-<#--        <img src="/images/${item.images.first.id}" alt="img${item.images.first.id}"/>-->
-        <p><b>${item.title}</b> ${item.price}$ | <a href="/items/view/${item.id}">More...</a></p>
-    </div>
-<#else>
-    <h4>No items</h4>
-</#list>
-</body>
-</html>
+<#import "template.ftlh" as t>
+<@t.template>
+    <h3>All items</h3>
+    <#list  items as item>
+        <div>
+            <img src="/images/${item.imagePreview}" alt="img${item.imagePreview}" height="50"/>
+            <p><b>${item.title}</b> ${item.price}$ | <a href="/items/view/${item.id}">More...</a></p>
+            <hr style="link: var(3)">
+        </div>
+    <#else>
+        <h4>No items</h4>
+    </#list>
+</@t.template>

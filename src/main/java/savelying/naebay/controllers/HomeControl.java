@@ -25,17 +25,23 @@ public class HomeControl {
     public String home(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("user", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         return "home";
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model, Principal principal) {
+        boolean isLog = principal != null;
+        model.addAttribute("isLog", isLog);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         return "login";
     }
 
     @GetMapping("/registry")
-    public String regUser() {
+    public String regUser(Model model, Principal principal) {
+        boolean isLog = principal != null;
+        model.addAttribute("isLog", isLog);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         return "registry";
     }
 
