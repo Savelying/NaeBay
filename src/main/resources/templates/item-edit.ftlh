@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NaeBay</title>
-</head>
-<body>
-<h1><a href="/">NaeBay!</a></h1>
-<br>
-<hr>
+<#import "template.ftlh" as t>
+<@t.template>
 <h3>Edit my item</h3>
 <form action="/items/edit/${item.id}" method="post" enctype="multipart/form-data">
     Enter the title: <input type="text" name="title" value="${item.title}"><br><br>
@@ -24,5 +16,4 @@
 <form action="/items/delete/${item.id}" method="post">
     <input type="submit" value="Delete"/>
 </form>
-</body>
-</html>
+</@t.template>

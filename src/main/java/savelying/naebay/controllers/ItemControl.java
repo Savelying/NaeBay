@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import savelying.naebay.models.Item;
-import savelying.naebay.models.User;
 import savelying.naebay.repositories.UserRepository;
 import savelying.naebay.services.ItemService;
 
@@ -24,13 +23,19 @@ public class ItemControl {
     }
 
     @GetMapping("")
-    public String items(Model model) {
+    public String items(Model model, Principal principal) {
+        boolean isLog = principal != null;
+        model.addAttribute("isLog", isLog);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         model.addAttribute("items", itemService.getItems());
         return "items";
     }
 
     @GetMapping("/create")
-    public String create(Model model) {
+    public String create(Model model, Principal principal) {
+        boolean isLog = principal != null;
+        model.addAttribute("isLog", isLog);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         model.addAttribute("item", new Item());
         return "item-create";
     }
@@ -48,12 +53,15 @@ public class ItemControl {
     @GetMapping("/view/{id}")
     public String item(@PathVariable long id, Model model, Principal principal) {
         boolean myLog = false;
+        boolean isLog = principal != null;
         if (principal != null) {
             if (itemService.getItem(id).getUser().getId() == userRepository.findByEmail(principal.getName()).getId())
                 myLog = true;
         }
         if (itemService.getItem(id) != null) {
             model.addAttribute("myLog", myLog);
+            model.addAttribute("isLog", isLog);
+            model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
             model.addAttribute("item", itemService.getItem(id));
             model.addAttribute("images", itemService.getItem(id).getImages());
         } else return "redirect:/items";
@@ -63,6 +71,8 @@ public class ItemControl {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable long id, Model model, Principal principal) {
         assert principal != null;
+        model.addAttribute("isLog", true);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         if (itemService.getItem(id) != null) {
             if (itemService.getItem(id).getUser().getId() == userRepository.findByEmail(principal.getName()).getId()) {
                 model.addAttribute("item", itemService.getItem(id));

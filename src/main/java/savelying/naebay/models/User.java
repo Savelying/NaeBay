@@ -13,7 +13,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @Column(unique = true)
+    @Column(unique = true, updatable = false)
     private String email;
     private String phone;
     private boolean active;
