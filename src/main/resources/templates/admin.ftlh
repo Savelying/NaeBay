@@ -1,7 +1,8 @@
 <#import "template.ftlh" as t>
 <@t.template>
-    <h3>Admin panel</h3>
-    <table border="1">
+    <h3 style="text-align: center">Admin panel</h3>
+
+    <table class="table table-bordered" style="text-align: center">
         <tr>
             <th>Email</th>
             <th>Phone</th>
@@ -13,7 +14,7 @@
         </tr>
         <#list users as user>
             <tr>
-                <th>${user.email}</th>
+                <th style="text-align: left">${user.email}</th>
                 <th>${user.phone}</th>
                 <th><#if user.active><a>Yes</a><#else><a>No</a></#if></th>
                 <th>
@@ -31,4 +32,5 @@
             <h4>No users</h4>
         </#list>
     </table>
+
 </@t.template>

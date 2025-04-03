@@ -58,4 +58,11 @@ public class UserControl {
             }
         return "redirect:/user/" + userRepository.findByEmail(principal.getName()).getId();
     }
+
+    @PostMapping("/delAva")
+    public String deleteAva(@ModelAttribute User user, Model model, Principal principal) {
+        assert principal != null;
+        userService.delAva(principal);
+        return "redirect:/user/edit";
+    }
 }

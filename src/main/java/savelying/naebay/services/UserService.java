@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import savelying.naebay.models.Image;
 import savelying.naebay.models.Role;
 import savelying.naebay.models.User;
+import savelying.naebay.repositories.ImageRepository;
 import savelying.naebay.repositories.UserRepository;
 
 import java.io.IOException;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ImageRepository imageRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ImageRepository imageRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageRepository = imageRepository;
     }
 
     public boolean createUser(User user) {
@@ -71,5 +74,14 @@ public class UserService {
         }
         userRepository.save(user);
         return true;
+    }
+
+    public void delAva(Principal principal) {
+        long avaId = userRepository.findByEmail(principal.getName()).getAva().getId();
+        System.out.println(avaId + "-" + imageRepository.findById(avaId).get().getOriginFileName());
+        User userToUpdate = userRepository.findByEmail(principal.getName());
+        userToUpdate.setAva(null);
+        userRepository.save(userToUpdate);
+        imageRepository.deleteById(avaId);
     }
 }

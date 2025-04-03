@@ -28,6 +28,13 @@ public class HomeControl {
         model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
         return "home";
     }
+  @GetMapping("/hello")
+    public String hello(Model model, Principal principal) {
+        boolean isLog = principal != null;
+        model.addAttribute("isLog", isLog);
+        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        return "hello";
+    }
 
     @GetMapping("/login")
     public String login(Model model, Principal principal) {
