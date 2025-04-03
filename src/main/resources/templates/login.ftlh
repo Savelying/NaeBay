@@ -1,21 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NaeBay</title>
-</head>
-<body>
-<h1><a href="/">NaeBay!</a></h1>
-<form action="/registry" method="get">
-    <input type="submit" value="Registration"/>
-</form>
-<hr>
-<h3>Log in</h3>
-<form action="/login" method="post">
-    Enter email: <input type="email" name="username"><br><br>
-    Enter password: <input type="password" name="password"><br><br>
-    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-    <input type="submit" value="Sign in"/>
-</form>
-</body>
-</html>
+<#import "template.ftlh" as t>
+<@t.template>
+    <h3 style="text-align: center">Log in</h3>
+
+    <form action="/login" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Enter email:</label>
+            <input type="email" name="username" class="form-control" id="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <br>
+
+            <label for="password" class="form-label">Enter password:</label>
+            <input type="password" name="password" class="form-control" id="password">
+        </div>
+
+<#--        <div class="mb-3 form-check">-->
+<#--            <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
+<#--            <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
+<#--        </div>-->
+
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="submit" class="btn btn-outline-secondary">Sign in</button>
+    </form>
+    <br>
+    <a>Мечтаешь стать "купи-продай"? </a>
+    <a href="/registry"> Зарегистрируйся!</a>
+
+</@t.template>

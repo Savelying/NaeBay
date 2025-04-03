@@ -43,12 +43,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/", "/login", "/registry", "/items/view/**",
+                        .requestMatchers("/", "/login", "/registry", "/items/view/**", "/items",
                                "/images/**", "/user/**", "/static/**").permitAll()
                         .requestMatchers("/hello", "/logout", "/admin/**", "/items/**").authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .successForwardUrl("/hello")
                         .permitAll()
                         .failureUrl("/login?error"))
                 .logout(logout -> logout.logoutUrl("/logout")

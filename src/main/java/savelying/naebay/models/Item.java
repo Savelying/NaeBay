@@ -95,5 +95,7 @@ public class Item {
     public List<Image> getImages() {
         return images;
     }
-
+public long getImagePreview() {
+        return images.getFirst().getId();
+}
 }
