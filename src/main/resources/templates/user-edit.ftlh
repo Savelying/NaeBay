@@ -4,12 +4,13 @@
 <form action="/admin/user/edit" method="post">
     <#list  roles as role>
         <div>
-            <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}
+            <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}> ${role}
             </label>
         </div>
     </#list>
+    <br>
     <input type="hidden" value="${user.id}" name="userId">
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-    <button type="submit">Save</button>
+    <button type="button" class="btn btn-primary">Save</button>
 </form>
 </@t.template>

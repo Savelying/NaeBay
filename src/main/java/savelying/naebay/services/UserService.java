@@ -78,7 +78,6 @@ public class UserService {
 
     public void delAva(Principal principal) {
         long avaId = userRepository.findByEmail(principal.getName()).getAva().getId();
-        System.out.println(avaId + "-" + imageRepository.findById(avaId).get().getOriginFileName());
         User userToUpdate = userRepository.findByEmail(principal.getName());
         userToUpdate.setAva(null);
         userRepository.save(userToUpdate);

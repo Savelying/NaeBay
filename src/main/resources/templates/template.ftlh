@@ -14,9 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-<#--    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"-->
-<#--            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"-->
-<#--            crossorigin="anonymous"></script>-->
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 
     <header class="p-3 mb-3 border-bottom">
         <div class="container">
@@ -58,7 +58,12 @@
                             <li><a class="dropdown-item" href="/items/create">New item</a></li>
                             <li><a class="dropdown-item" href="/user/${userLog.id}">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                            <li>
+                                <form action="/logout" method="post">
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                    <input type="submit" class="btn btn-outline-secondary" value="Sign out"/>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 <#else>

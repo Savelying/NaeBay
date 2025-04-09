@@ -42,20 +42,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/", "/login", "/registry", "/items/view/**", "/items",
-                               "/images/**", "/user/**", "/static/**").permitAll()
-                        .requestMatchers("/hello", "/logout", "/admin/**", "/items/**").authenticated()
+                .authorizeHttpRequests(configurer -> configurer
+                        .requestMatchers("/", "/login", "/logout", "/registry").permitAll()
+                        .requestMatchers("/items", "/items/view/**", "/images/**").permitAll()
+                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/hello").authenticated()
+                        .requestMatchers("/admin/**", "/items/**").authenticated()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .successForwardUrl("/hello")
-                        .permitAll()
+                        .defaultSuccessUrl("/hello").permitAll()
                         .failureUrl("/login?error"))
                 .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll());
+                        .logoutSuccessUrl("/").permitAll());
         return http.build();
     }
 }

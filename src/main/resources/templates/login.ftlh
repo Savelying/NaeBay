@@ -13,15 +13,11 @@
             <input type="password" name="password" class="form-control" id="password">
         </div>
 
-<#--        <div class="mb-3 form-check">-->
-<#--            <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-<#--            <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-<#--        </div>-->
-
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit" class="btn btn-outline-secondary">Sign in</button>
     </form>
     <br>
+
     <a>Мечтаешь стать "купи-продай"? </a>
     <a href="/registry"> Зарегистрируйся!</a>
 
