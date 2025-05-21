@@ -71,7 +71,7 @@ public class UserService {
             Image image = new Image(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
             if (userToUpdate.getAva() != null) image.setId(userToUpdate.getAva().getId());
             user.setAva(image);
-        }
+        } else user.setAva(userToUpdate.getAva());
         userRepository.save(user);
         return true;
     }
