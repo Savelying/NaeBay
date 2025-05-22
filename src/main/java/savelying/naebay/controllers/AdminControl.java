@@ -4,8 +4,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import savelying.naebay.dto.UserDTO;
+import savelying.naebay.mappers.UserMapper;
 import savelying.naebay.models.Role;
-import savelying.naebay.models.User;
+import savelying.naebay.repositories.UserRepository;
 import savelying.naebay.services.ItemService;
 import savelying.naebay.services.UserService;
 
@@ -18,17 +20,21 @@ import java.util.Map;
 public class AdminControl {
     private final UserService userService;
     private final ItemService itemService;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
-    public AdminControl(UserService userService, ItemService itemService) {
+    public AdminControl(UserService userService, ItemService itemService, UserMapper userMapper, UserRepository userRepository) {
         this.userService = userService;
         this.itemService = itemService;
+        this.userMapper = userMapper;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("")
     public String admin(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         model.addAttribute("users", userService.getUsers());
         return "admin";
     }
@@ -39,19 +45,19 @@ public class AdminControl {
         return "redirect:/admin";
     }
 
-    @GetMapping("/user/edit/{user}")
-    public String editUser(@PathVariable("user") User user, Model model, Principal principal) {
+    @GetMapping("/user/edit/{id}")
+    public String editUser(@PathVariable long id, Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
-        model.addAttribute("user", user);
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
+        model.addAttribute("user", userMapper.toDTO(userRepository.findById(id)));
         model.addAttribute("roles", Role.values());
         return "user-edit";
     }
 
     @PostMapping("/user/edit")
-    public String editUser(@RequestParam("userId") User user, @RequestParam Map<String, String> form) {
-        userService.changeUserRole(user, form);
+    public String editUser(@RequestParam("userId") UserDTO userDTO, @RequestParam Map<String, String> form) {
+        userService.changeUserRole(userMapper.toUser(userDTO), form);
         return "redirect:/admin";
     }
 }

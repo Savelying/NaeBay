@@ -49,11 +49,11 @@ public class SecurityConfig {
                         .requestMatchers("/static/**").permitAll()
                         .requestMatchers("/hello").authenticated()
                         .requestMatchers("/admin/**", "/items/**").authenticated()
-//                        .anyRequest().authenticated()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/hello").permitAll()
+                        .defaultSuccessUrl("/hello", true)
                         .failureUrl("/login?error"))
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/").permitAll());
