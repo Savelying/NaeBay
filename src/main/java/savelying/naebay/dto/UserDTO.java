@@ -1,6 +1,7 @@
 package savelying.naebay.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import savelying.naebay.models.Image;
 import savelying.naebay.models.Item;
@@ -14,6 +15,7 @@ public class UserDTO {
     @NotNull(message = "Name must be not empty")
     private String name;
     @NotNull(message = "Email must be not empty")
+    @Email(message = "Please, enter valid email!")
     private String email;
     private String phone;
     private boolean active;

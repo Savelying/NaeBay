@@ -53,6 +53,7 @@
         <b>Title: </b>${item.title}<br>
         <b>Description: </b>${item.description}<br>
         <b>City: </b>${item.city}<br>
+        <b>Date: </b>${item.date}<br>
         <b>Price: </b>${item.price}$<br>
         <#if !myLog>
             <b>Author: </b><a href="/user/${item.user.id}">${item.user.name}</a><br>

@@ -34,7 +34,7 @@ public class AdminControl {
     public String admin(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         model.addAttribute("users", userService.getUsers());
         return "admin";
     }
@@ -49,7 +49,7 @@ public class AdminControl {
     public String editUser(@PathVariable long id, Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         model.addAttribute("user", userMapper.toDTO(userRepository.findById(id)));
         model.addAttribute("roles", Role.values());
         return "user-edit";

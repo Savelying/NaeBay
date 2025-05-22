@@ -1,7 +1,7 @@
 package savelying.naebay.dto;
 
+import jakarta.validation.constraints.NotNull;
 import savelying.naebay.models.Image;
-import savelying.naebay.models.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,19 +10,18 @@ import java.util.List;
 
 public class ItemDTO {
     private long id;
+    @NotNull(message = "Title must be not empty")
     private String title;
     private String description;
+    @NotNull(message = "City must be not empty")
     private String city;
+    @NotNull(message = "Price must be not empty")
     private int price;
     private LocalDate date;
 
-    private User user;
+    private UserDTO user;
 
-    private List<Image> images = new ArrayList<>();
-
-    private void prePersist() {
-        this.date = LocalDate.now();
-    }
+    private List<Image> imagesDTO = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -72,24 +71,23 @@ public class ItemDTO {
         this.date = date;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserDTO(UserDTO userDTO) {
+        this.user = userDTO;
     }
-
-//    public void addImageToItem(Image image) {
-//        image.setItem(this);
-//        images.add(image);
-//    }
 
     public List<Image> getImagesDTO() {
-        return images;
+        return imagesDTO;
     }
 
-    public long getImagePreview() {
-        return images.getFirst().getId();
+    public void setImagesDTO(List<Image> imagesDTO) {
+        this.imagesDTO = imagesDTO;
+    }
+
+    public long getImagePreviewDTO() {
+        return imagesDTO.getFirst().getId();
     }
 }

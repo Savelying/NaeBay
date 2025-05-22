@@ -35,7 +35,7 @@ public class UserControl {
         if (principal != null) myLog = id == (userRepository.findByEmail(principal.getName()).getId());
         model.addAttribute("myLog", myLog);
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         model.addAttribute("user", userMapper.toDTO(userRepository.findById(id)));
         model.addAttribute("items", userMapper.toDTO(userRepository.findById(id)).getItems());
         return "user-info";
@@ -45,8 +45,8 @@ public class UserControl {
     public String edit(Model model, Principal principal) {
         assert principal != null;
         model.addAttribute("isLog", true);
-        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("user", userMapper.toDTO(userRepository.findByEmail(principal.getName())));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         return "my-edit";
     }
 
@@ -62,7 +62,7 @@ public class UserControl {
     }
 
     @PostMapping("/delAva")
-    public String deleteAva(/*@ModelAttribute User user, Model model, */Principal principal) {
+    public String deleteAva(Principal principal) {
         assert principal != null;
         userService.delAva(principal);
         return "redirect:/user/edit";

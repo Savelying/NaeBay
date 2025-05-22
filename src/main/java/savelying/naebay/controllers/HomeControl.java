@@ -28,7 +28,7 @@ public class HomeControl {
     public String home(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         return "home";
     }
 
@@ -36,7 +36,7 @@ public class HomeControl {
     public String hello(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         return "hello";
     }
 
@@ -44,7 +44,7 @@ public class HomeControl {
     public String login(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         return "login";
     }
 
@@ -52,18 +52,16 @@ public class HomeControl {
     public String regUser(Model model, Principal principal) {
         boolean isLog = principal != null;
         model.addAttribute("isLog", isLog);
-        model.addAttribute("userLog", itemService.getUserByPrincipal(principal));
+        model.addAttribute("userLog", userMapper.toDTO(itemService.getUserByPrincipal(principal)));
         return "registry";
     }
 
     @PostMapping("/registry")
     public String registry(@ModelAttribute UserDTO userDTO, Model model) {
-//        model.addAttribute("user", user);
         if (!userService.createUser(userMapper.toUser(userDTO))) {
             model.addAttribute("error", "User with this email (" + userDTO.getEmail() + ") already exists!");
             return "registry";
         }
         return "redirect:/login";
     }
-
 }
